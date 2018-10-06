@@ -1,10 +1,10 @@
-FROM microsoft/dotnet:2.1.402-sdk-alpine as publish
+FROM microsoft/dotnet:2.1.403-sdk-alpine as publish
 COPY src /src
 WORKDIR /src
 
 RUN dotnet publish -c Release
 
-FROM microsoft/dotnet:2.1.4-aspnetcore-runtime-alpine as run
+FROM microsoft/dotnet:2.1.5-aspnetcore-runtime-alpine as run
 COPY --from=publish /src/bin/Release/netcoreapp2.1/publish /app
 WORKDIR /app
 
