@@ -1,10 +1,11 @@
 docker-build:
 	docker build \
-		-t fdns-ms-anthstat \
+		-t stat-ms-anthropometry \
 		--rm \
+		--force-rm=true \
 		--no-cache \
 		--build-arg ASPNETCORE_ENVIRONMENT=production \
-		--build-arg APP_NAME=Fdns-AnthStat \
+		--build-arg APP_NAME=stat-nutritional-anthropometry \
 		.
 
 docker-run: docker-start
@@ -12,13 +13,13 @@ docker-start:
 	docker-compose up -d
 	docker run -d \
 		-p 9093:9093 \
-		--network=fdns-ms-anthstat_default  \
-		--name=fdns-ms-anthstat_main \
-		fdns-ms-anthstat
+		--network=stat-ms-anthropometry_default  \
+		--name=stat-ms-anthropometry_main \
+		stat-ms-anthropometry
 
 docker-stop:
-	docker stop fdns-ms-anthstat_main || true
-	docker rm fdns-ms-anthstat_main || true
+	docker stop stat-ms-anthropometry_main || true
+	docker rm stat-ms-anthropometry_main || true
 	docker-compose down
 
 docker-restart:

@@ -1,12 +1,17 @@
-FROM microsoft/dotnet:2.1.403-sdk-alpine as publish
+# Build stage
+FROM microsoft/dotnet:2.1.500-sdk-alpine as publish
+
+RUN apk update && apk upgrade --no-cache
+
 COPY src /src
 WORKDIR /src
 
 RUN dotnet publish -c Release
 
-FROM microsoft/dotnet:2.1.5-aspnetcore-runtime-alpine as run
-COPY --from=publish /src/bin/Release/netcoreapp2.1/publish /app
-WORKDIR /app
+# Run stage
+FROM microsoft/dotnet:2.1.6-aspnetcore-runtime-alpine as run
+
+RUN apk update && apk upgrade --no-cache
 
 EXPOSE 9093/tcp
 ENV ASPNETCORE_URLS http://*:9093
@@ -16,6 +21,9 @@ ARG APP_NAME
 
 ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT}
 ENV APP_NAME ${APP_NAME}
+
+COPY --from=publish /src/bin/Release/netcoreapp2.1/publish /app
+WORKDIR /app
 
 # pull latest
 RUN apk update && apk upgrade --no-cache

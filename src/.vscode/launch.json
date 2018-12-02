@@ -31,7 +31,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "APP_NAME": "Fdns-AnthStat"
+                "APP_NAME": "stat-nutritional-anthropometry"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

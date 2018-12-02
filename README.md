@@ -1,10 +1,12 @@
-# AnthStat Microservice
-A microservice for computing z-scores for children and adolescents using the WHO 2006 Child Growth Standards, the WHO 2007 Growth Reference, and the CDC 2000 Growth Charts. A z-score-to-percentile converter is also provided.
+# Nutritional Anthropometry Microservice
+A microservice for computing z-scores for children and adolescents using the WHO 2006 Child Growth Standards, the WHO 2007 Growth Reference, and the CDC 2000 Growth Charts. A z-score-to-percentile converter is also provided. 
 
 ## Running this microservice locally
 See the [usage guide](docs/USAGE.md) for instructions on how to run this microservice on your computer.
 
 ## Statistics
+All statistical routines are provided by the C# [Anthstat statistical library](https://github.com/erik1066/anthstat-statistics).
+
 Z-scores for the following indicators can be computed using the WHO 2006 Growth Standard:
 
 * Length/height-for-age
@@ -35,9 +37,7 @@ For more information and further documentation:
 * WHO 2006 Growth Standards: http://www.who.int/childgrowth/en/
 * WHO 2007 Growth Reference: http://www.who.int/growthref/en/
 * CDC 2000 Growth Charts: https://www.cdc.gov/growthcharts/index.htm
-* AnthStat open source statistics library: https://gitlab.com/eknudsen/anthstat-statistics
-
-
+* AnthStat open source statistics library: https://github.com/erik1066/anthstat-statistics
 
 ## License
 The repository utilizes code licensed under the terms of the Apache Software License and therefore is licensed under ASL v2 or later.

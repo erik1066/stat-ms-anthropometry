@@ -51,20 +51,20 @@ namespace Foundation.AnthStat.WebUI
             string authorizationDomain = Common.GetConfigurationVariable(Configuration, "OAUTH2_ACCESS_TOKEN_URI", "Auth:Domain", string.Empty);
             bool useAuthorization = !string.IsNullOrEmpty(authorizationDomain);
 
-            string applicationName = Common.GetConfigurationVariable(Configuration, "APP_NAME", "AppName", "Fdns-AnthStat");
+            string applicationName = Common.GetConfigurationVariable(Configuration, "APP_NAME", "AppName", "stat-nutritional-anthropometry");
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "FDNS AnthStat Microservice",
+                    Title = "Nutritional Anthropometry Statistical Microservice",
                     Version = "v1",
                     Description = "A microservice for computing z-scores for children and adolescents using the WHO 2006 Child Growth Standards, the WHO 2007 Growth Reference, and the CDC 2000 Growth Charts. A z-score-to-percentile converter is also provided.",
                     Contact = new Contact
                     {
                         Name = "Erik Knudsen",
                         Email = string.Empty,
-                        Url = "https://gitlab.com/eknudsen"
+                        Url = "https://github.com/erik1066"
                     },
                     License = new License
                     {
@@ -116,8 +116,8 @@ namespace Foundation.AnthStat.WebUI
                     .AddHealthCheckGroup(
                         "memory",
                         group => group.AddPrivateMemorySizeCheck(1)
-                                    .AddVirtualMemorySizeCheck(2)
-                                    .AddWorkingSetCheck(1),
+                                    .AddVirtualMemorySizeCheck(128_000_000_000)
+                                    .AddWorkingSetCheck(140_000_000),
                             CheckStatus.Unhealthy
                     );
             });
@@ -180,7 +180,7 @@ namespace Foundation.AnthStat.WebUI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FDNS AnthStat Microservice API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nutritional Anthropometry Statistical API V1");
             });
 
             app.UseAuthentication();

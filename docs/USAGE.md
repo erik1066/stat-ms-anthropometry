@@ -21,7 +21,7 @@ You will need to have the following software installed to debug this microservic
 - [.NET Core SDK 2.1](https://www.microsoft.com/net/download)
 
 1. Open Visual Studio Code
-1. Select **File** > **OpenFolder** and select `fdns-ms-anthstat/src`
+1. Select **File** > **OpenFolder** and select `stat-ms-anthropometry/src`
 1. Open Visual Studio Code's **Debug** pane (shortcut key: `CTRL`+`SHIFT`+`D`)
 1. Press the green arrow at the top of the **Debug** pane
 1. Open a web browser and point to https://localhost:5007
@@ -42,7 +42,7 @@ The following environment variables can be used to configure this microservice t
 * `OAUTH2_CLIENT_SECRET`: This is your OAuth 2 client secret with the provider
 * `SSL_VERIFYING_DISABLE`: This is an option to disable SSL verification, you can disable this when testing locally but this should be set to `false` for all production systems
 
-__Scopes__: This application uses the following scope: `fdns.anthstat.*`
+__Scopes__: This application uses the following scope: `stat.anthstat.*`
 
 For more information on using OAuth2 with this microservice, see **Authorization and security** at the end of this document.
 

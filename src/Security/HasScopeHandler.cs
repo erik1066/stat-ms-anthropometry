@@ -15,7 +15,7 @@ namespace Foundation.AnthStat.WebUI.Security
 
         private string GetScopeFromRoute(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext resource)
         {
-            var scope = $"fdns.dotnetboilerplate";
+            var scope = $"stat.anthstat";
             return scope;
         }
 
