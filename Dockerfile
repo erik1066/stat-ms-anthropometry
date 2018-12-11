@@ -1,7 +1,7 @@
 # Build stage
-FROM microsoft/dotnet:2.1.500-sdk-alpine as publish
+FROM microsoft/dotnet:2.2.100-sdk-alpine3.8 as build
 
-RUN apk update && apk upgrade --no-cache
+ENV DOTNET_CLI_TELEMETRY_OPTOUT true
 
 COPY src /src
 WORKDIR /src
@@ -9,24 +9,23 @@ WORKDIR /src
 RUN dotnet publish -c Release
 
 # Run stage
-FROM microsoft/dotnet:2.1.6-aspnetcore-runtime-alpine as run
+FROM microsoft/dotnet:2.2.0-aspnetcore-runtime-alpine3.8 as run
 
 RUN apk update && apk upgrade --no-cache
 
-EXPOSE 9093/tcp
-ENV ASPNETCORE_URLS http://*:9093
-
+ARG ANTHRO_PORT
 ARG ASPNETCORE_ENVIRONMENT
 ARG APP_NAME
 
+ENV ANTHRO_PORT ${ANTHRO_PORT}
 ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT}
 ENV APP_NAME ${APP_NAME}
 
-COPY --from=publish /src/bin/Release/netcoreapp2.1/publish /app
-WORKDIR /app
+EXPOSE ${ANTHRO_PORT}/tcp
+ENV ASPNETCORE_URLS http://*:${ANTHRO_PORT}
 
-# pull latest
-RUN apk update && apk upgrade --no-cache
+COPY --from=build /src/bin/Release/netcoreapp2.2/publish /app
+WORKDIR /app
 
 # don't run as root user
 RUN chown 1001:0 /app/Foundation.AnthStat.WebUI.dll

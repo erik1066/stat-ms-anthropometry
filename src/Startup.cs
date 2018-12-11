@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Swashbuckle.AspNetCore.Swagger;
 using Foundation.Sdk;
 using Foundation.Sdk.Data;
@@ -109,20 +112,6 @@ namespace Foundation.AnthStat.WebUI
                     .AllowCredentials());
             });
 
-            #region Health checks
-            services.AddHealthChecks(checks =>
-            {
-                checks
-                    .AddHealthCheckGroup(
-                        "memory",
-                        group => group.AddPrivateMemorySizeCheck(1)
-                                    .AddVirtualMemorySizeCheck(128_000_000_000)
-                                    .AddWorkingSetCheck(140_000_000),
-                            CheckStatus.Unhealthy
-                    );
-            });
-            #endregion // Health checks
-
             #region OAuth2 configuration
             services.AddAuthentication(options =>
             {
@@ -134,6 +123,8 @@ namespace Foundation.AnthStat.WebUI
                 options.Authority = authorizationDomain;
                 options.Audience = Common.GetConfigurationVariable(Configuration, "OAUTH2_CLIENT_ID", "Auth:ApiIdentifier", string.Empty);
             });
+
+            services.AddHealthChecks();
 
             /* These policy names match the names in the [Authorize] attribute(s) in the Controller classes.
              * The HasScopeHandler class is used (see below) to pass/fail the authorization check if authorization
@@ -162,6 +153,14 @@ namespace Foundation.AnthStat.WebUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                await next();
+            });
+            
             app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment())
@@ -171,9 +170,9 @@ namespace Foundation.AnthStat.WebUI
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            // app.UseHttpsRedirection(); // use for production but for R&D and testing, can be a problem
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -181,6 +180,11 @@ namespace Foundation.AnthStat.WebUI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nutritional Anthropometry Statistical API V1");
+            });
+
+            app.UseHealthChecks("/health/live", new HealthCheckOptions
+            {
+                Predicate = (check) => false
             });
 
             app.UseAuthentication();

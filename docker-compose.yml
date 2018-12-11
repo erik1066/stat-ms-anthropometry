@@ -1,6 +1,5 @@
-version: '3'
+version: '3.1'
 services:
-  # Fluentd is required for all microservices to monitor logs in one source
   fluentd:
     image: fluent/fluentd
     ports:

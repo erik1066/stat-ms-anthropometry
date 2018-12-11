@@ -3,7 +3,7 @@ docker-build:
 		-t stat-ms-anthropometry \
 		--rm \
 		--force-rm=true \
-		--no-cache \
+		--build-arg ANTHRO_PORT=9093 \
 		--build-arg ASPNETCORE_ENVIRONMENT=production \
 		--build-arg APP_NAME=stat-nutritional-anthropometry \
 		.

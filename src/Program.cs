@@ -22,7 +22,6 @@ namespace Foundation.AnthStat.WebUI
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseHealthChecks("/health", TimeSpan.FromSeconds(3))     // Or to host on a separate port: .UseHealthChecks(port)
                 .ConfigureLogging(logging =>
                     logging.AddFilter("System", LogLevel.Debug)
                         .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Trace));
