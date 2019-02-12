@@ -10,7 +10,7 @@ You will need to have the following software installed to run this microservice:
 1. Open Bash or a Bash-like terminal
 1. Build the container image by running `make docker-build`
 1. Start the container by running `make docker-start`
-1. Open a web browser and point to [http://127.0.0.1:9093/](http://127.0.0.1:9093/)
+1. Open a web browser and point to [http://127.0.0.1:9080/](http://127.0.0.1:9080/)
 
 ## Debugging using Visual Studio Code
 
