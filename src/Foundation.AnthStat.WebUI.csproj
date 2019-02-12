@@ -50,7 +50,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
-    <PackageReference Include="Foundation.Sdk" Version="0.0.5" />
+    <PackageReference Include="Foundation.Sdk" Version="0.0.12" />
     <PackageReference Include="AnthStat.Statistics" Version="3.1.1" />
   </ItemGroup>
 

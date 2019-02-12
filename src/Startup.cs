@@ -21,7 +21,6 @@ using Microsoft.Extensions.Options;
 
 using Swashbuckle.AspNetCore.Swagger;
 using Foundation.Sdk;
-using Foundation.Sdk.Data;
 using Foundation.Sdk.Security;
 using Foundation.AnthStat.WebUI.Security;
 using Polly;
@@ -184,7 +183,8 @@ namespace Foundation.AnthStat.WebUI
 
             app.UseHealthChecks("/health/live", new HealthCheckOptions
             {
-                Predicate = (check) => false
+                Predicate = (check) => false,
+                AllowCachingResponses = false
             });
 
             app.UseAuthentication();
