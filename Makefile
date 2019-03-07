@@ -20,7 +20,7 @@ docker-start:
 docker-stop:
 	docker stop stat-ms-anthropometry_main || true
 	docker rm stat-ms-anthropometry_main || true
-	docker-compose down
+	docker-compose down --volume
 
 docker-restart:
 	make docker-stop 2>/dev/null || true
